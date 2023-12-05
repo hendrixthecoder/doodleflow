@@ -2,12 +2,11 @@
 import Button from "@/components/Button";
 import Link from "next/link";
 import Image from "next/image";
-import { submitLoginForm } from "@/lib/utils";
 
 const Page = () => {
   
   return (
-    <form action={submitLoginForm} className="flex flex-col gap-3 w-[70%] ">
+    <form action="" className="flex flex-col gap-3 w-[70%] ">
       <div className="relative">
         <Image
           alt="Profile icon"
