@@ -1,10 +1,7 @@
 import Button from "@/components/Button";
 import Image from "next/image";
 
-
 const page = () => {
-  
-
   return (
     <form action="" className="flex flex-col gap-3 w-[70%] ">
       <div className="relative">
@@ -17,7 +14,7 @@ const page = () => {
         />
         <input
           type="text"
-          className="border rounded w-full"
+          className="border rounded w-full auth-form"
           placeholder="Username"
         />
       </div>
@@ -31,7 +28,7 @@ const page = () => {
         />
         <input
           type="email"
-          className="border rounded w-full"
+          className="border rounded w-full auth-form"
           placeholder="Email"
         />
       </div>
@@ -45,7 +42,7 @@ const page = () => {
         />
         <input
           type="text"
-          className="border rounded w-full"
+          className="border rounded w-full auth-form"
           placeholder="Password"
         />
       </div>
@@ -59,13 +56,19 @@ const page = () => {
         />
         <input
           type="text"
-          className="border rounded w-full"
+          className="border rounded w-full auth-form"
           placeholder="Confirm Password"
         />
       </div>
-      <Button classes="mt-4" value="Register" color="white" bgColor="#7B61FF" />
+      <Button
+        type="submit"
+        classes="mt-4"
+        value="Register"
+        color="white"
+        bgColor="#7B61FF"
+      />
     </form>
   );
-}
+};
 
-export default page
+export default page;

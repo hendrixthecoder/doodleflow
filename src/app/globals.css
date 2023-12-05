@@ -5,9 +5,16 @@
 input {
     outline: none;
     padding: 6px;
+}
+
+input.auth-form {
     padding-left: 40px
 }
 
 input::placeholder {
     font-size: small;
+}
+
+dialog::backdrop {
+    background-color: rgba(69, 67, 67, 0.5);
 }

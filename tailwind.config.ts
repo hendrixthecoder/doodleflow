@@ -16,6 +16,9 @@ const config: Config = {
       colors: {
         myPurple: "#7B61FF",
       },
+      fontFamily: {
+        montez: ['montez']
+      }
     },
   },
   plugins: [],
