@@ -11,21 +11,21 @@ const Page = () => {
         <Image
           alt="Profile icon"
           src="/profile.svg"
-          className="absolute pointer-events-none top-2 left-2"
+          className="absolute pointer-events-none top-1 sm:top-2 left-2"
           width="20"
           height="20"
         />
-        <input type="text" className="border rounded w-full auth-form" name="username" placeholder="Username" />
+        <input type="text" className="border rounded w-full auth-form text-xs sm:text-base placeholder:text-xs" name="username" placeholder="Username" />
       </div>
       <div className="relative">
         <Image
           alt="Padlock icon"
           src="/padlock.svg"
-          className="absolute pointer-events-none top-2 left-2"
+          className="absolute pointer-events-none top-1 sm:top-2 left-2"
           width="20"
           height="20"
         />
-        <input type="password" className="border rounded w-full auth-form" name="password" placeholder="Password"/>
+        <input type="password" className="border rounded w-full auth-form text-xs sm:text-base placeholder:text-xs" name="password" placeholder="Password"/>
       </div>
       <Button type="submit" classes="mt-4" value="Login" color="white" bgColor="#7B61FF" />
       <p className="mx-auto text-[12px] mt-4">

@@ -9,11 +9,11 @@ const DeleteBoardModal = ({
   return (
     <dialog
       ref={dialogRef}
-      className="bg-white rounded-xl max-w-md w-[70%] p-5 "
+      className="bg-white rounded-xl max-w-md w-[90%] md:w-[70%] p-5  "
     >
       <form
         action=""
-        className="flex flex-col gap-3 px-4 sm:px-10 w-[70%] mx-auto"
+        className="flex flex-col gap-3 sm:px-10 w-[70%] mx-auto"
       >
         <p className="text-xs">
           Do you want to <span className="font-bold">delete</span> this board?

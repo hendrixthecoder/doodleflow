@@ -5,7 +5,7 @@ const LogoutModal = ({ dialogRef, closeModal }: ModalProps) => {
   return (
     <dialog
       ref={dialogRef}
-      className="bg-white rounded-xl max-w-md w-[70%] p-5"
+      className="bg-white rounded-xl max-w-md w-[90%] md:w-[70%] p-5"
     >
       <form action="" className="flex flex-col gap-3 px-4 sm:px-10">
         <p className="text-xs text-center">
