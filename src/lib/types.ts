@@ -11,8 +11,10 @@ export type ButtonProps = {
 };
 
 export type User = {
-    username: string,
-    password: string
+  username: string,
+  email: string,
+  fullName: string,
+  profilePic: string
 }
 
 export type Board = {
@@ -28,3 +30,21 @@ export type ModalProps = {
   closeModal: (dialogRef: RefObject<HTMLDialogElement>) => void
   boardToDelete?: string
 };
+
+export type ContextState = {
+  setLoggedUser: (user: User) => void,
+  user: User | null,
+}
+
+export type NewUser = {
+  unparsedPassword?: string;
+  unparsedConfpassword?: string;
+  unparsedEmail?: string;
+  unparsedFullName?: string;
+  unparsedUsername?: string;
+};
+
+export interface LoginFormObject {
+  email: string,
+  password: string
+}

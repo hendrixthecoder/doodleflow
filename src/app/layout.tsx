@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Montserrat } from 'next/font/google'
 import './globals.css'
+import { ContextProvider } from '@/contexts/ContextProvider'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 
@@ -16,7 +17,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={montserrat.className}>{children}</body>
+      <body className={montserrat.className}>
+        <ContextProvider>
+          {children}
+        </ContextProvider>
+      </body>
     </html>
   )
 }

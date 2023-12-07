@@ -1,7 +1,22 @@
 import { ModalProps } from "@/lib/types";
 import Button from "../Button";
+import { signOut } from "firebase/auth";
+import { auth } from "@/firebase";
+import { useStateContext } from "@/contexts/ContextProvider";
+import { useRouter } from "next/navigation";
+import { Toaster, toast } from "react-hot-toast";
 
 const LogoutModal = ({ dialogRef, closeModal }: ModalProps) => {
+  const router = useRouter()
+  const { setLoggedUser } = useStateContext();
+  const handleLogOut = () => {
+    toast.success("Logged out successfully!")
+    signOut(auth);
+    setLoggedUser({ email: "", fullName: "", profilePic: "", username: "" });
+    sessionStorage.removeItem("userId");
+    router.push("/login")
+  };
+
   return (
     <dialog
       ref={dialogRef}
@@ -17,8 +32,9 @@ const LogoutModal = ({ dialogRef, closeModal }: ModalProps) => {
             value="Yes"
             bgColor="#7B61FF"
             color="white"
-            type="submit"
+            type="button"
             classes="px-5 sm:px-10"
+            action={handleLogOut}
           />
           <Button
             value="Cancel"
@@ -30,6 +46,7 @@ const LogoutModal = ({ dialogRef, closeModal }: ModalProps) => {
           />
         </div>
       </form>
+      <Toaster/>
     </dialog>
   );
 };
