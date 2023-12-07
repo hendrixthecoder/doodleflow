@@ -4,13 +4,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useState } from "react";
-import { LoginFormObject } from "@/lib/types";
-import { auth } from "@/firebase";
+import { LoginFormObject, User } from "@/lib/types";
+import { auth, db } from "@/firebase";
 import { useRouter } from "next/navigation";
 import { FirebaseError } from "firebase/app";
 import { UserCredential } from "firebase/auth";
 import { useStateContext } from "@/contexts/ContextProvider";
 import { toast, Toaster } from 'react-hot-toast'
+import { doc, getDoc } from "firebase/firestore";
 
 
 const Page = () => {
@@ -27,20 +28,16 @@ const Page = () => {
   const handleLogin = async () => {
     try {
       const { user } = await signInWithEmailAndPassword(email, password) as UserCredential;
+      sessionStorage.setItem("userId", user.uid)
+      
+      const userDocRef = doc(db, "users", user.uid)
+      const userDocSnapshot = await getDoc(userDocRef)
+      const userData = userDocSnapshot.data() as User
+      toast.success("Logged in successfully!")
+      console.log({userData});
       
       setFormBody({ email: "", password: "" });
-      sessionStorage.setItem("userId", user.uid)
-
-      const userForState = {
-        username: user.providerData.username as string,
-        fullName: user.providerData.fullName as string,
-        email: user.providerData.email as string,
-        profilePic: user.providerData.profilePic as string
-      }
-
-      toast.success("Logged in successfully!")
-
-      setLoggedUser({ ...user, ...userForState })
+      setLoggedUser({ ...user, ...userData })
 
       router.push("/")
 

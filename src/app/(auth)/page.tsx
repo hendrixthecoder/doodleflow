@@ -3,11 +3,10 @@ import BoardsList from "@/components/BoardsList";
 import Button from "@/components/Button";
 import CreateBoardModal from "@/components/modals/CreateBoardModal";
 import LogoutModal from "@/components/modals/LogoutModal";
-import { auth, db } from "@/firebase";
+import { db } from "@/firebase";
 import { montez } from "@/lib/fonts";
 import Image from "next/image";
 import { Suspense, useEffect, useRef } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/navigation";
 import Loader from "@/components/Loader";
 import { useStateContext } from "@/contexts/ContextProvider";
@@ -84,7 +83,7 @@ export default function Home() {
             <LogoutModal dialogRef={profileDialogRef} closeModal={closeModal} />
             <div>
               <Button
-                classes="px-10"
+                classes="sm:px-10"
                 icon="/plus.svg"
                 value="NEW BOARD"
                 bgColor="#7B61FF"
