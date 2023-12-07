@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
-import { Montserrat, Montez } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import "../globals.css";
-import Image from "next/image";
-import LogOutButton from "@/components/LogOutButton";
 
 
 const montserrat = Montserrat({ subsets: ["latin"] });
-const montez = Montez({ subsets: ["latin"], weight: ["400"] });
 
 export const metadata: Metadata = {
   title: "Home",

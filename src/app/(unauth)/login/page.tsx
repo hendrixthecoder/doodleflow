@@ -34,7 +34,6 @@ const Page = () => {
       const userDocSnapshot = await getDoc(userDocRef)
       const userData = userDocSnapshot.data() as User
       toast.success("Logged in successfully!")
-      console.log({userData});
       
       setFormBody({ email: "", password: "" });
       setLoggedUser({ ...user, ...userData })
