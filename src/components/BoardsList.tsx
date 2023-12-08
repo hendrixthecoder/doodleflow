@@ -1,11 +1,14 @@
 "use client";
-import { Board } from "@/lib/types";
+import { BoardProps } from "@/lib/types";
 import Image from "next/image";
 import Link from "next/link";
-import { RefObject, useRef, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import DeleteBoardModal from "./modals/DeleteBoardModal";
+import { fetchBoards } from "@/lib/utils";
+import { useStateContext } from "@/contexts/ContextProvider";
+import { useRouter } from "next/navigation";
 
-const Board = ({ id, name, showModal, setBoardToDelete, deleteBoardRef }: Board) => {
+const Board = ({ id, name, showModal, setBoardToDelete, deleteBoardRef }: BoardProps) => {
   const handleDeleteModal = (
     id: string,
     dialogRef: RefObject<HTMLDialogElement>
@@ -40,44 +43,43 @@ const BoardsList = ({
 }: {
   showModal: (dialogRef: RefObject<HTMLDialogElement>) => void;
   closeModal: (dialogRef: RefObject<HTMLDialogElement>) => void;
-}) => {
-  const boards = [
-    {
-      id: "qewrf24",
-      name: "Cats and Dogs",
-    },
-    {
-      id: "qewrf243",
-      name: "Cats and Monkeys",
-    },
-    {
-      id: "qewrf249",
-      name: "Fishes and Dogs",
-    },
-    {
-      id: "qewrf2943",
-      name: "Snakes and Monkeys",
-    },
-  ];
+  }) => {
+  const { boards, setBoards } = useStateContext()
+  const router = useRouter()
+
+  useEffect(() => {
+    const fetchUserBoards = async () => {
+      const userId = sessionStorage.getItem("userId")
+      if (!userId) return router.push("/login")
+      const userBoards = await fetchBoards(userId)
+      
+      setBoards(userBoards)
+    }
+
+    fetchUserBoards()
+  }, [])
 
   const deleteBoardRef = useRef<HTMLDialogElement>(null);
   const [boardToDelete, setBoardToDelete] = useState<string>("");
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-      <DeleteBoardModal boardToDelete={boardToDelete} dialogRef={deleteBoardRef} closeModal={closeModal} />
+    <>
+      {!boards.length && <h1>You current havely no boards.</h1>}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <DeleteBoardModal boardToDelete={boardToDelete} dialogRef={deleteBoardRef} closeModal={closeModal} />
 
-      {boards.map((board) => (
-        <Board
-          key={board.id}
-          id={board.id}
-          name={board.name}
-          showModal={showModal}
-          setBoardToDelete={setBoardToDelete}
-          deleteBoardRef={deleteBoardRef}
-        />
-      ))}
-    </div>
+        {boards.map((board) => (
+          <Board
+            key={board.id}
+            id={board.id}
+            name={board.name}
+            showModal={showModal}
+            setBoardToDelete={setBoardToDelete}
+            deleteBoardRef={deleteBoardRef}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 

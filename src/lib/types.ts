@@ -17,7 +17,7 @@ export type User = {
   profilePic: string
 }
 
-export type Board = {
+export type BoardProps = {
   id: string;
   name: string;
   showModal: (dialogRef: RefObject<HTMLDialogElement>) => void;
@@ -34,6 +34,8 @@ export type ModalProps = {
 export type ContextState = {
   setLoggedUser: (user: User) => void,
   user: User | null,
+  boards: Board[] | [],
+  setBoards: Dispatch<SetStateAction<Board[] | []>>
 }
 
 export type NewUser = {
@@ -47,4 +49,9 @@ export type NewUser = {
 export interface LoginFormObject {
   email: string,
   password: string
+}
+
+export type Board = {
+  id: string,
+  name: string
 }

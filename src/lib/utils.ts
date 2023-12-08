@@ -1,8 +1,19 @@
+"use server";
 import { auth, db } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
-import { NewUser, User } from "./types";
+import { Board, NewUser, User } from "./types";
+import { parse } from "path";
 
 export const createUser = async (formData: FormData) => {
   const unparsedUsername = formData.get("username")?.toString();
@@ -82,3 +93,43 @@ const parseInputFields = (inputObject: NewUser) => {
     fullName: unparsedFullName,
   };
 };
+
+export const fetchBoards = async (userId: string) => {
+  const postsQuery = query(
+    collection(db, "boards"),
+    where("userId", "==", userId)
+  );
+  const postsSnapshot = await getDocs(postsQuery);
+
+  const boards = postsSnapshot.docs.map((doc) => doc.data()) as Board[];
+  return boards;
+};
+
+export const createBoard = async (formData: FormData) => {
+
+  try {
+    const { boardName, userId } = parseBoardFields(formData)
+    // Get the Firestore collection reference for "boards"
+    const boardsCollection = collection(db, "boards");
+
+    // Add a new document to the "boards" collection
+    const newBoardDoc = await addDoc(boardsCollection, {
+      name: boardName,
+      userId: userId,
+    });
+
+    // You can return the ID of the newly created board if needed
+    return { id: newBoardDoc.id, name: boardName } as Board;
+  } catch (error) {
+    console.error("Error creating board:", error);
+    throw error;
+  }
+};
+
+const parseBoardFields = (formData: FormData) => {
+  const boardName = formData.get("name")
+  const userId = formData.get("userId")
+
+  if (!boardName || !userId) throw new Error('Board name is required!')
+  return { boardName, userId }
+}

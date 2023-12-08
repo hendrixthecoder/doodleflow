@@ -1,6 +1,6 @@
 "use client"
 
-import { ContextState, User } from "@/lib/types";
+import { Board, ContextState, User } from "@/lib/types";
 import { createContext, useContext, useState } from "react";
 
 
@@ -8,7 +8,8 @@ const StateContext = createContext<ContextState | null>(null)
 
 
 export const ContextProvider = ({ children }: { children: React.ReactNode }) => {
-    const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<User | null>(null)
+  const [boards, setBoards] = useState<Board[] | []>([])
 
     const setLoggedUser = (userObject: User) => {
         const user = JSON.stringify(userObject)
@@ -17,7 +18,7 @@ export const ContextProvider = ({ children }: { children: React.ReactNode }) => 
     }
 
     return (
-        <StateContext.Provider value={{ setLoggedUser, user }}>
+        <StateContext.Provider value={{ setLoggedUser, user, boards, setBoards }}>
             {children}
         </StateContext.Provider>
     )

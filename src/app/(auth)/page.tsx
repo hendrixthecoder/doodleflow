@@ -12,6 +12,7 @@ import Loader from "@/components/Loader";
 import { useStateContext } from "@/contexts/ContextProvider";
 import { doc, getDoc } from "firebase/firestore";
 import { User } from "@/lib/types";
+import { Toaster } from "react-hot-toast";
 
 export default function Home() {
   
@@ -101,7 +102,8 @@ export default function Home() {
       )}
 
       {/*Show a loading screen to transition from auth screen to login screen if not authenticated*/}
-      {!user && <Loader/>}
+      {!user && <Loader />}
+      <Toaster/>
     </>
   );
 }
