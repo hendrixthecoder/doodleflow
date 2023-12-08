@@ -12,6 +12,10 @@ export const useDraw = (
   const startDrawing = () => setDrawing(true);
   const stopDrawing = () => setDrawing(false);
 
+  const onMouseDown = () => {
+    startDrawing();
+  };
+
   useEffect(() => {
     const handler = (e: MouseEvent | TouchEvent) => {
       if (!drawing) return;
@@ -23,6 +27,9 @@ export const useDraw = (
 
       onDraw({ ctx, currentPoint, prevPoint: prevPoint.current });
       prevPoint.current = currentPoint;
+
+      // Prevent default behavior to avoid scrolling on touch devices
+      e.preventDefault();
     };
 
     const computePointInCanvas = (e: MouseEvent | TouchEvent) => {
@@ -47,12 +54,16 @@ export const useDraw = (
       prevPoint.current = null;
     };
 
+    canvasRef.current?.addEventListener("mousedown", onMouseDown);
+    canvasRef.current?.addEventListener("touchstart", startDrawing);
     canvasRef.current?.addEventListener("mousemove", handler);
     canvasRef.current?.addEventListener("touchmove", handler);
     window.addEventListener("mouseup", endDrawing);
     window.addEventListener("touchend", endDrawing);
 
     return () => {
+      canvasRef.current?.removeEventListener("mousedown", onMouseDown);
+      canvasRef.current?.removeEventListener("touchstart", startDrawing);
       canvasRef.current?.removeEventListener("mousemove", handler);
       canvasRef.current?.removeEventListener("touchmove", handler);
       window.removeEventListener("mouseup", endDrawing);
@@ -60,5 +71,5 @@ export const useDraw = (
     };
   }, [onDraw, drawing]);
 
-  return { canvasRef, onMouseDown: startDrawing };
+  return { canvasRef, onMouseDown };
 };
