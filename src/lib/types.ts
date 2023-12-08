@@ -55,3 +55,19 @@ export type Board = {
   id: string,
   name: string
 }
+
+export type BoardsListProps = {
+  showModal: (dialogRef: RefObject<HTMLDialogElement>) => void;
+  closeModal: (dialogRef: RefObject<HTMLDialogElement>) => void;
+}
+
+export type Draw = {
+  ctx: CanvasRenderingContext2D
+  currentPoint: Point
+  prevPoint: Point | null
+}
+
+export type Point = {
+  x: number,
+  y: number
+}

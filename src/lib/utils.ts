@@ -14,6 +14,7 @@ import {
 import { FirebaseError } from "firebase/app";
 import { Board, NewUser, User } from "./types";
 import { parse } from "path";
+import { notFound } from "next/navigation";
 
 export const createUser = async (formData: FormData) => {
   const unparsedUsername = formData.get("username")?.toString();
@@ -53,6 +54,7 @@ export const createUser = async (formData: FormData) => {
     const userRef = doc(db, "users", user.uid);
     const userSnap = await getDoc(userRef);
     const userFields = userSnap.data() as User;
+    
     return { userId: user.uid, user: userFields }; //Return user information to use to set user state
   } catch (error) {
     if (error instanceof Error) {
@@ -95,13 +97,17 @@ const parseInputFields = (inputObject: NewUser) => {
 };
 
 export const fetchBoards = async (userId: string) => {
-  const postsQuery = query(
+  const boardQuery = query(
     collection(db, "boards"),
     where("userId", "==", userId)
   );
-  const postsSnapshot = await getDocs(postsQuery);
+  const boardsSnapshot = await getDocs(boardQuery);
 
-  const boards = postsSnapshot.docs.map((doc) => doc.data()) as Board[];
+  const boards = boardsSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data()
+  })) as Board[];
+  
   return boards;
 };
 
@@ -132,4 +138,22 @@ const parseBoardFields = (formData: FormData) => {
 
   if (!boardName || !userId) throw new Error('Board name is required!')
   return { boardName, userId }
+}
+
+export const fetchBoard = async (id: string) => {
+  try {
+    if (!id) throw new Error('Invalid board id!')
+
+    const boardRef = doc(db, 'boards', id)
+    const boardSnapshot = await getDoc(boardRef)
+
+    if (!boardSnapshot.exists()) throw new Error('Board not found!')
+    const boardData = boardSnapshot.data()
+  delete boardData.userId
+  const board = { name: boardData.name, id }
+  return board as Board
+    
+  } catch (error) {
+    notFound()
+  }
 }

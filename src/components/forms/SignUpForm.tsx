@@ -13,10 +13,8 @@ const SignUpForm = () => {
 
   const handleLoginForm = async (formData: FormData) => {
     try {
-      const { user, userId } = await createUser(formData);
+      const { user } = await createUser(formData);
       toast.success("Account created successfully!")
-      sessionStorage.removeItem("userId")
-      sessionStorage.setItem("userId", userId)
       setLoggedUser(user)
       router.push('/')
 
@@ -24,7 +22,6 @@ const SignUpForm = () => {
       if (error instanceof Error) {
         toast.error(error.message)
       } else {
-        const firebaseError = error as FirebaseError;
         toast.error("Error signing up, try later.")
       }
     }
@@ -35,7 +32,7 @@ const SignUpForm = () => {
       <div className="relative">
         <Image
           alt="Profile icon"
-          src="/profile.svg"
+          src="/icons/profile.svg"
           className="absolute pointer-events-none top-1 sm:top-2 left-2"
           width="20"
           height="20"
@@ -51,7 +48,7 @@ const SignUpForm = () => {
       <div className="relative">
         <Image
           alt="Profile icon"
-          src="/profile.svg"
+          src="/icons/profile.svg"
           className="absolute pointer-events-none top-1 sm:top-2 left-2"
           width="20"
           height="20"
@@ -67,7 +64,7 @@ const SignUpForm = () => {
       <div className="relative">
         <Image
           alt="Profile icon"
-          src="/email.svg"
+          src="/icons/email.svg"
           className="absolute pointer-events-none top-1 sm:top-2 left-2"
           width="20"
           height="20"
@@ -83,7 +80,7 @@ const SignUpForm = () => {
       <div className="relative">
         <Image
           alt="Padlock icon"
-          src="/padlock.svg"
+          src="/icons/padlock.svg"
           className="absolute pointer-events-none top-1 sm:top-2 left-2"
           width="20"
           height="20"
@@ -99,7 +96,7 @@ const SignUpForm = () => {
       <div className="relative">
         <Image
           alt="Padlock icon"
-          src="/padlock.svg"
+          src="/icons/padlock.svg"
           className="absolute pointer-events-none top-1 sm:top-2 left-2 "
           width="20"
           height="20"
@@ -119,7 +116,7 @@ const SignUpForm = () => {
         color="white"
         bgColor="#7B61FF"
       />
-      <Toaster/>
+      <Toaster />
     </form>
   );
 };

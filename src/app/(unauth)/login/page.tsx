@@ -28,17 +28,16 @@ const Page = () => {
   const handleLogin = async () => {
     try {
       const { user } = await signInWithEmailAndPassword(email, password) as UserCredential;
-      sessionStorage.setItem("userId", user.uid)
       
       const userDocRef = doc(db, "users", user.uid)
       const userDocSnapshot = await getDoc(userDocRef)
       const userData = userDocSnapshot.data() as User
-      toast.success("Logged in successfully!")
       
       setFormBody({ email: "", password: "" });
-      setLoggedUser({ ...user, ...userData })
-
+      setLoggedUser(userData)
+      
       router.push("/")
+      toast.success("Logged in successfully!")
 
     } catch (error) {
       const firebaseError = error as FirebaseError
@@ -53,7 +52,7 @@ const Page = () => {
       <div className="relative">
         <Image
           alt="Profile icon"
-          src="/profile.svg"
+          src="/icons/profile.svg"
           className="absolute pointer-events-none top-1 sm:top-2 left-2"
           width="20"
           height="20"
@@ -71,7 +70,7 @@ const Page = () => {
       <div className="relative">
         <Image
           alt="Padlock icon"
-          src="/padlock.svg"
+          src="/icons/padlock.svg"
           className="absolute pointer-events-none top-1 sm:top-2 left-2"
           width="20"
           height="20"

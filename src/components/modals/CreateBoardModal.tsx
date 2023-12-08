@@ -12,6 +12,7 @@ const CreateBoardModal = ({ dialogRef, closeModal }: ModalProps) => {
   const [user] = useAuthState(auth)
   const [boardInput, setBoardInput] = useState<string>()
   const { boards, setBoards } = useStateContext()
+  
 
   const handleCreate = async (formData: FormData) => {
     try {
@@ -42,7 +43,7 @@ const CreateBoardModal = ({ dialogRef, closeModal }: ModalProps) => {
           className="border rounded"
           value={boardInput}
           onChange={(e) => setBoardInput(e.target.value)}
-          
+          required
           placeholder="Board Name"
         />
         <input type="hidden" name="userId" value={user?.uid} />

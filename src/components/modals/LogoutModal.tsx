@@ -10,11 +10,10 @@ const LogoutModal = ({ dialogRef, closeModal }: ModalProps) => {
   const router = useRouter()
   const { setLoggedUser } = useStateContext();
   const handleLogOut = () => {
-    toast.success("Logged out successfully!")
     signOut(auth);
     setLoggedUser({ email: "", fullName: "", profilePic: "", username: "" });
-    sessionStorage.removeItem("userId");
     router.push("/login")
+    toast.success("Logged out successfully!")
   };
 
   return (
