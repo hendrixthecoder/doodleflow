@@ -98,10 +98,7 @@ export default function Home() {
                 action={() => showModal(dialogRef)}
               />
             </div>
-
-            <Suspense fallback="Loading...">
-              <BoardsList showModal={showModal} closeModal={closeModal} />
-            </Suspense>
+            <BoardsList showModal={showModal} closeModal={closeModal} />
           </div>
         </main>
       )}

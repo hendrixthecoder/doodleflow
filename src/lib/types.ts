@@ -69,6 +69,11 @@ export type Draw = {
   prevPoint: Point | null
 }
 
+export type DrawLineProps = Draw & {
+  color: string
+  lineWidth: number
+}
+
 export type Point = {
   x: number,
   y: number

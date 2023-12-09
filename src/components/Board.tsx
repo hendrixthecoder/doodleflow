@@ -11,12 +11,10 @@ import Link from "next/link";
 import Canvas from "./Canvas";
 import Loader from "./Loader";
 import BrushStateDialog from "./dialogs/BrushStateDialog";
-import { useToggleBrushModal } from "@/hooks/useToggleBrushModal";
 
 const Board = ({ board }: { board: Board }) => {
-  const { setLoggedUser, user, setBrush } = useStateContext();
+  const { setLoggedUser, user } = useStateContext();
   const router = useRouter();
-  const { toggleBrush } = useToggleBrushModal()
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (authUser) => {
@@ -43,12 +41,12 @@ const Board = ({ board }: { board: Board }) => {
 
       {user && (
         <>
-          <header className="border p-2 w-full justify-between flex shadow items-center">
+          <header className="border-b px-4 w-full justify-between flex shadow items-center">
             <div className="flex gap-3 items-center">
               <Link href="/">
                 <Image
                   src="/icons/home.svg"
-                  width={18}
+                  width={22}
                   height={18}
                   alt="Home button"
                 />

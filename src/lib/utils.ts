@@ -12,9 +12,9 @@ import {
   where,
 } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
-import { Board, NewUser, User } from "./types";
-import { parse } from "path";
+import { Board, NewUser, User, DrawLineProps } from "./types";
 import { notFound } from "next/navigation";
+import { useStateContext } from "@/contexts/ContextProvider";
 
 export const createUser = async (formData: FormData) => {
   const unparsedUsername = formData.get("username")?.toString();
@@ -156,4 +156,23 @@ export const fetchBoard = async (id: string) => {
   } catch (error) {
     notFound()
   }
+}
+
+export const drawALine = ({ prevPoint, currentPoint, ctx, color, lineWidth }: DrawLineProps) => {
+  return
+  const { x: currX, y: currY } = currentPoint;
+  const lineColor = color;
+
+  let startPoint = prevPoint ?? currentPoint;
+  ctx.beginPath;
+  ctx.lineWidth = lineWidth;
+  ctx.strokeStyle = lineColor;
+  ctx.moveTo(startPoint.x, startPoint.y);
+  ctx.lineTo(currX, currY);
+  ctx.stroke();
+
+  ctx.fillStyle = lineColor;
+  ctx.beginPath();
+  ctx.arc(startPoint.x, startPoint.y, 2, 0, 2 * Math.PI);
+  ctx.fill();
 }
