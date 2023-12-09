@@ -35,7 +35,9 @@ export type ContextState = {
   setLoggedUser: (user: User) => void,
   user: User | null,
   boards: Board[] | [],
-  setBoards: Dispatch<SetStateAction<Board[] | []>>
+  setBoards: Dispatch<SetStateAction<Board[] | []>>,
+  brush: BrushProps,
+  setBrush: Dispatch<SetStateAction<BrushProps>>,
 }
 
 export type NewUser = {
@@ -70,4 +72,9 @@ export type Draw = {
 export type Point = {
   x: number,
   y: number
+}
+
+export interface BrushProps {
+  lineWidth: number,
+  color: string
 }

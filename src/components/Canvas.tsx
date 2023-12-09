@@ -1,9 +1,10 @@
+import { useStateContext } from "@/contexts/ContextProvider";
 import { useDraw } from "@/hooks/useDraw";
 import { Draw } from "@/lib/types";
 import { useEffect } from "react";
 
 const Canvas = () => {
-
+  const { brush } = useStateContext()
   const { canvasRef, onMouseDown } = useDraw(drawALine)
 
   useEffect(() => {
@@ -32,8 +33,8 @@ const Canvas = () => {
   
   function drawALine({ prevPoint, currentPoint, ctx }: Draw) {
     const { x: currX, y: currY } = currentPoint
-    const lineColor = '#000'
-    const lineWidth = 5
+    const lineColor = brush.color
+    const lineWidth = brush.lineWidth
 
     let startPoint = prevPoint ?? currentPoint
     ctx.beginPath
@@ -56,7 +57,6 @@ const Canvas = () => {
         width={750}
         height={750}
         ref={canvasRef}
-        className=""
       />
     </div>
   );

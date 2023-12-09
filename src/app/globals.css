@@ -18,3 +18,11 @@ input::placeholder {
 dialog::backdrop {
     background-color: rgba(69, 67, 67, 0.5);
 }
+
+.selected-color {
+    border: 3px solid #7B61FF;
+}
+
+.selected-stroke {
+    border: 3px solid #7B61FF;
+}
