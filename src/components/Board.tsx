@@ -11,10 +11,19 @@ import Link from "next/link";
 import Canvas from "./Canvas";
 import Loader from "./Loader";
 import BrushStateDialog from "./dialogs/BrushStateDialog";
+import toast, { Toaster } from "react-hot-toast";
 
 const Board = ({ board }: { board: Board }) => {
   const { setLoggedUser, user } = useStateContext();
   const router = useRouter();
+
+  const handleShareBoard = () => {
+    const boardLink = `${process.env.NEXT_PUBLIC_APP_URL}/boards/${board.id}`;
+    if(!boardLink) return 
+    navigator.clipboard.writeText(boardLink)
+      .then(() => toast.success('Link copied successfully!'))
+      .catch((error) => toast.error('Unable to copy link to clipboard. Please try again.'))
+  }
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (authUser) => {
@@ -69,6 +78,7 @@ const Board = ({ board }: { board: Board }) => {
                 classes="text-xs"
                 bgColor="#7B61FF"
                 color="white"
+                action={handleShareBoard}
                 value="Share"
               />
               <div className="rounded-full overflow-hidden w-[40px]">
@@ -83,6 +93,7 @@ const Board = ({ board }: { board: Board }) => {
             </div>
           </header>
           <Canvas />
+          <Toaster />
         </>
       )}
     </>

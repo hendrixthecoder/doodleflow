@@ -3,8 +3,6 @@ import { useDraw } from "@/hooks/useDraw";
 import { Draw, DrawLineProps } from "@/lib/types";
 import { useEffect } from "react";
 import { io } from "socket.io-client";
-console.log(process.env.NEXT_PUBLIC_SERVER_URL);
-
 const socket = io(`${process.env.NEXT_PUBLIC_SERVER_URL}`);
 
 const Canvas = () => {
@@ -70,7 +68,7 @@ const Canvas = () => {
   }
 
   return (
-    <div className="h-[80%] w-[90%] flex items-center justify-center canvas-container">
+    <div className="h-[80%] w-[90%] mx-auto my-auto border flex items-center justify-center canvas-container">
       <canvas
         onMouseDown={onMouseDown}
         width={750}
