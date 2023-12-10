@@ -13,23 +13,12 @@ import Loader from "./Loader";
 import BrushStateDialog from "./dialogs/BrushStateDialog";
 import toast, { Toaster } from "react-hot-toast";
 import MenuDialog from "./dialogs/MenuDialog";
+import InviteModal from "./modals/InviteModal";
 
 const Board = ({ board }: { board: Board }) => {
-
   
   const { setLoggedUser, user } = useStateContext();
   const router = useRouter();
-
-  const handleShareBoard = () => {
-    const boardLink = `${process.env.NEXT_PUBLIC_APP_URL}/boards/${board.id}`;
-    if (!boardLink) return;
-    navigator.clipboard
-      .writeText(boardLink)
-      .then(() => toast.success("Link copied successfully!"))
-      .catch((error) =>
-        toast.error("Unable to copy link to clipboard. Please try again.")
-      );
-  };
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (authUser) => {
@@ -80,14 +69,7 @@ const Board = ({ board }: { board: Board }) => {
                 color="red"
                 value="Delete"
               />
-              <Button
-                type="button"
-                classes="text-xs max-sm:hidden"
-                bgColor="#7B61FF"
-                color="white"
-                action={handleShareBoard}
-                value="Share"
-              />
+              <InviteModal board={board}/>
               <div className="rounded-full overflow-hidden w-[40px]">
                 <Image
                   alt="Profile picture"

@@ -1,10 +1,11 @@
 import { Board } from "@/lib/types";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import { useToggleBrushModal } from "@/hooks/useToggleMenu";
 import Button from "../Button";
 import { useStateContext } from "@/contexts/ContextProvider";
 import { saveBoard } from "@/lib/utils";
+import InviteModal from "../modals/InviteModal";
 
 type MenuDialogProps = {
   board: Board;
@@ -66,14 +67,7 @@ const MenuDialog = ({ board }: MenuDialogProps) => {
                 color="red"
                 value="Delete"
               />
-              <Button
-                type="button"
-                classes="text-xs"
-                bgColor="#7B61FF"
-                color="white"
-                action={handleShareBoard}
-                value="Share"
-              />
+              <InviteModal board={board}/>
             </>
           )}
           <form action={handleSave}>
@@ -88,6 +82,7 @@ const MenuDialog = ({ board }: MenuDialogProps) => {
           </form>
         </div>
       </dialog>
+      <Toaster/>
     </div>
   );
 };

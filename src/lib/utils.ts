@@ -1,4 +1,5 @@
 "use server";
+import nodemailer from "nodemailer"
 import { auth, db } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import {
@@ -172,6 +173,38 @@ export const saveBoard = async (boardId: string, data: string) => {
     if (!boardSnapshot.exists()) throw new Error('Board does not exist')
     await updateDoc(boardRef, { boardData: data })
 
+  } catch (error) {
+    throw error
+  }
+}
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.NEXT_PUBLIC_EMAIL_ADDRESS,
+    pass: process.env.NEXT_PUBLIC_MAIL_APP_PASSWORD,
+  },
+});
+
+export const sendEmailTo = async (email: string, board: Board, sender: string) => {
+  try {
+    if (!email) throw new Error('Email field is required!')
+    if(!sender) throw new Error('Invalid request!')
+    
+    const emailLink = `${process.env.NEXT_PUBLIC_APP_URL}/boards/${board.id}`;
+
+    const emailOptions = {
+      from: process.env.NEXT_PUBLIC_EMAIL_ADDRESS,
+      to: email,
+      subject: "Invitation to collaborate",
+      text: `Greetings, you've been invited by ${sender} on Doodleflow to collaborate on a board. Please click this link to create an account if you do not have one ${process.env.NEXT_PUBLIC_APP_URL}. If you do click this to join in and collaborate: ${emailLink}`,
+    };
+
+    await transporter.sendMail(emailOptions)
+    
   } catch (error) {
     throw error
   }
