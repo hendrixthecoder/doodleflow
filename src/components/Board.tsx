@@ -15,6 +15,8 @@ import toast, { Toaster } from "react-hot-toast";
 import MenuDialog from "./dialogs/MenuDialog";
 
 const Board = ({ board }: { board: Board }) => {
+
+  
   const { setLoggedUser, user } = useStateContext();
   const router = useRouter();
 
@@ -97,7 +99,7 @@ const Board = ({ board }: { board: Board }) => {
               </div>
             </div>
           </header>
-          <Canvas />
+          <Canvas boardData={board.boardData} />
           <Toaster />
         </>
       )}

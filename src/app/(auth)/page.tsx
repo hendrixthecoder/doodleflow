@@ -6,7 +6,7 @@ import LogoutModal from "@/components/modals/LogoutModal";
 import { auth, db } from "@/firebase";
 import { montez } from "@/lib/fonts";
 import Image from "next/image";
-import { Suspense, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Loader from "@/components/Loader";
 import { useStateContext } from "@/contexts/ContextProvider";

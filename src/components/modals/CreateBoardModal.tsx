@@ -10,9 +10,8 @@ import { useState } from "react";
 
 const CreateBoardModal = ({ dialogRef, closeModal }: ModalProps) => {
   const [user] = useAuthState(auth)
-  const [boardInput, setBoardInput] = useState<string>()
+  const [boardInput, setBoardInput] = useState<string>("")
   const { boards, setBoards } = useStateContext()
-  
 
   const handleCreate = async (formData: FormData) => {
     try {

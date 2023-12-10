@@ -5,9 +5,24 @@ import { useEffect } from "react";
 import { io } from "socket.io-client";
 const socket = io(`${process.env.NEXT_PUBLIC_SERVER_URL}`);
 
-const Canvas = () => {
-  const { brush,  setBoardData } = useStateContext();
+const Canvas = ({ boardData }: { boardData: string}) => {
+  const { brush } = useStateContext();
   const { canvasRef, onMouseDown } = useDraw(createALine);
+
+  useEffect(() => {
+    if (!canvasRef.current) return
+    const canvas = canvasRef.current
+    const ctx = canvas.getContext("2d")
+
+    ctx?.clearRect(0, 0, canvas.width, canvas.height)
+    const img = new Image()
+    img.src = boardData
+    img.onload = () => {
+      ctx?.drawImage(img, 0, 0)
+    }
+
+  }, [boardData])
+  
 
   useEffect(() => {
     const ctx = canvasRef.current?.getContext("2d");
@@ -44,7 +59,13 @@ const Canvas = () => {
     };
   }, [canvasRef]);
 
-  function drawALine ({ prevPoint, currentPoint, ctx, color, lineWidth }: DrawLineProps) {
+  function drawALine({
+    prevPoint,
+    currentPoint,
+    ctx,
+    color,
+    lineWidth,
+  }: DrawLineProps) {
     const { x: currX, y: currY } = currentPoint;
     const lineColor = color;
 
@@ -63,14 +84,25 @@ const Canvas = () => {
   }
 
   function createALine({ prevPoint, currentPoint, ctx }: Draw) {
-    setBoardData((prevState) => [...prevState, { prevPoint, currentPoint }])
-    socket.emit("drawLine", ({ prevPoint, currentPoint, color: brush.color, lineWidth: brush.lineWidth }));
-    drawALine({ prevPoint, currentPoint, ctx, color: brush.color, lineWidth: brush.lineWidth });
+    socket.emit("drawLine", {
+      prevPoint,
+      currentPoint,
+      color: brush.color,
+      lineWidth: brush.lineWidth,
+    });
+    drawALine({
+      prevPoint,
+      currentPoint,
+      ctx,
+      color: brush.color,
+      lineWidth: brush.lineWidth,
+    });
   }
 
   return (
     <div className="h-[80%] w-[90%] mx-auto my-auto border flex items-center justify-center canvas-container">
       <canvas
+        id="canvas"
         onMouseDown={onMouseDown}
         width={750}
         height={750}

@@ -9,6 +9,7 @@ import {
   getDocs,
   query,
   setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
@@ -117,13 +118,16 @@ export const createBoard = async (formData: FormData) => {
     const boardsCollection = collection(db, "boards");
 
     // Add a new document to the "boards" collection
-    const newBoardDoc = await addDoc(boardsCollection, {
+    const newBoardRef = await addDoc(boardsCollection, {
       name: boardName,
       userId: userId,
+      boardData: ''
     });
 
-    // You can return the ID of the newly created board if needed
-    return { id: newBoardDoc.id, name: boardName } as Board;
+    const boardDoc = await getDoc(newBoardRef)
+
+    return { ...boardDoc.data(), id: newBoardRef.id } as Board
+    
   } catch (error) {
     console.error("Error creating board:", error);
     throw error;
@@ -146,10 +150,29 @@ export const fetchBoard = async (id: string) => {
     const boardSnapshot = await getDoc(boardRef);
 
     if (!boardSnapshot.exists()) throw new Error("Board not found!");
-    const boardData = boardSnapshot.data();
-    return { ...boardData, id } as Board;
+
+    const board = boardSnapshot.data();
+    return { ...board, id } as Board;
 
   } catch (error) {
     notFound();
   }
 };
+
+
+export const saveBoard = async (boardId: string, data: string) => {
+  try {
+    if (!boardId) throw new Error('Invalid request!')
+    if(!data) throw new Error('Make changes before trying to save!')
+    
+    const boardCollection = collection(db, "boards")
+    const boardRef = doc(boardCollection, boardId)
+    const boardSnapshot = await getDoc(boardRef)
+
+    if (!boardSnapshot.exists()) throw new Error('Board does not exist')
+    await updateDoc(boardRef, { boardData: data })
+
+  } catch (error) {
+    throw error
+  }
+}

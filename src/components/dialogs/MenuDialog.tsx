@@ -4,16 +4,21 @@ import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import { useToggleBrushModal } from "@/hooks/useToggleMenu";
 import Button from "../Button";
 import { useStateContext } from "@/contexts/ContextProvider";
+import { saveBoard } from "@/lib/utils";
 
-const MenuDialog = ({ board }: { board: Board }) => {
+type MenuDialogProps = {
+  board: Board;
+};
+
+const MenuDialog = ({ board }: MenuDialogProps) => {
   const { menuDialogRef, toggleMenu, isOpen } = useToggleBrushModal();
-  const { boardData, user } = useStateContext();
-  console.log({ user });
-  console.log({ board });
+  const { user } = useStateContext();
 
   const handleShareBoard = () => {
     const boardLink = `${process.env.NEXT_PUBLIC_APP_URL}/boards/${board.id}`;
+
     if (!boardLink) return;
+
     navigator.clipboard
       .writeText(boardLink)
       .then(() => toast.success("Link copied successfully!"))
@@ -22,7 +27,22 @@ const MenuDialog = ({ board }: { board: Board }) => {
       );
   };
 
-  const handleSave = () => {};
+  const handleSave = async () => {
+    try {
+      const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+      if (!canvas) return;
+      const boardData = canvas.toDataURL();
+
+      await saveBoard(board.id, boardData);
+      toast.success("Doodle saved successfully!");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("Error saving board, try later.");
+      }
+    }
+  };
 
   return (
     <div className="relative hidden max-sm:block">
@@ -56,14 +76,16 @@ const MenuDialog = ({ board }: { board: Board }) => {
               />
             </>
           )}
-          <Button
-            type="button"
-            classes="text-xs"
-            bgColor="#7B61FF"
-            color="white"
-            action={handleShareBoard}
-            value="Save"
-          />
+          <form action={handleSave}>
+            <Button
+              type="button"
+              classes="text-xs"
+              bgColor="#7B61FF"
+              color="white"
+              action={handleSave}
+              value="Save"
+            />
+          </form>
         </div>
       </dialog>
     </div>

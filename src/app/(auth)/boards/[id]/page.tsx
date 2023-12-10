@@ -10,11 +10,7 @@ type BoardPageProps = {
 const page = async ({ params }: BoardPageProps) => {
   const board = await fetchBoard(params.id);
 
-  return (
-    <>
-      <Board board={board} />
-    </>
-  );
+  return <Board board={board} />;
 };
 
 export default page;
