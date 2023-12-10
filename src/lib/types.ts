@@ -29,7 +29,7 @@ export type BoardProps = {
 export type ModalProps = {
   dialogRef: RefObject<HTMLDialogElement>,
   closeModal: (dialogRef: RefObject<HTMLDialogElement>) => void
-  boardToDelete?: string
+  boardToDelete: string
 };
 
 export type ContextState = {

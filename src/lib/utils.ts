@@ -5,6 +5,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -16,6 +17,7 @@ import {
 import { FirebaseError } from "firebase/app";
 import { Board, NewUser, User } from "./types";
 import { notFound } from "next/navigation";
+
 
 export const createUser = async (formData: FormData) => {
   const unparsedUsername = formData.get("username")?.toString();
@@ -207,10 +209,24 @@ export const sendEmailTo = async (email: string, board: Board, sender: string) =
     await transporter.sendMail(emailOptions)
     
   } catch (error) {
-    if (error instanceof Error) {
-      console.log(error.message);
-    }
-    
+    throw error
+  }
+}
+
+
+export const deleteBoard = async (id: string, userId: string) => {
+  try {
+    if (!id || !userId) throw new Error('Invalid request!')
+    const boardRef = doc(db, "boards", id);
+    const boardSnapshot = await getDoc(boardRef);
+
+    if (!boardSnapshot.exists()) throw new Error("Board not found!");
+    const boardData = boardSnapshot.data()
+    if (boardData.userId !== userId) throw new Error('Unauthorized action!')
+
+    await deleteDoc(boardRef)
+
+  } catch (error) {
     throw error
   }
 }

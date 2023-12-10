@@ -34,7 +34,7 @@ const Board = ({
           width={17}
           height={17}
           alt="Delete icon"
-          onClick={() => handleDeleteModal(name, deleteBoardRef)}
+          onClick={() => handleDeleteModal(id, deleteBoardRef)}
           className="absolute right-1 top-1 z-10 cursor-pointer"
         />
         <Link className="flex" href={`/boards/${id}`}>
