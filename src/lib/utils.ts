@@ -195,9 +195,10 @@ export const sendEmailTo = async (email: string, board: Board, sender: string) =
     if(!sender) throw new Error('Invalid request!')
     
     const emailLink = `${process.env.NEXT_PUBLIC_APP_URL}/boards/${board.id}`;
+    const fromEmail = process.env.NEXT_PUBLIC_EMAIL_ADDRESS
 
     const emailOptions = {
-      from: process.env.NEXT_PUBLIC_EMAIL_ADDRESS,
+      from: fromEmail,
       to: email,
       subject: "Invitation to collaborate",
       text: `Greetings, you've been invited by ${sender} on Doodleflow to collaborate on a board. Please click this link to create an account if you do not have one ${process.env.NEXT_PUBLIC_APP_URL}. If you do click this to join in and collaborate: ${emailLink}`,
@@ -206,6 +207,10 @@ export const sendEmailTo = async (email: string, board: Board, sender: string) =
     await transporter.sendMail(emailOptions)
     
   } catch (error) {
+    if (error instanceof Error) {
+      console.log(error.message);
+    }
+    
     throw error
   }
 }
