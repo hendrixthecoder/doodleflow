@@ -12,6 +12,8 @@ import Canvas from "./Canvas";
 import Loader from "./Loader";
 import BrushStateDialog from "./dialogs/BrushStateDialog";
 import toast, { Toaster } from "react-hot-toast";
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import MenuDialog from "./dialogs/MenuDialog";
 
 const Board = ({ board }: { board: Board }) => {
   const { setLoggedUser, user } = useStateContext();
@@ -64,18 +66,19 @@ const Board = ({ board }: { board: Board }) => {
                 <BrushStateDialog />
               </div>
             </div>
-            <div>{board.name}</div>
+            <div className="">{board.name}</div>
+            <MenuDialog board={board} />
             <div className="flex gap-3">
               <Button
                 type="button"
-                classes="border text-xs"
+                classes="border text-xs max-sm:hidden"
                 bgColor="white"
                 color="red"
                 value="Delete"
               />
               <Button
                 type="button"
-                classes="text-xs"
+                classes="text-xs max-sm:hidden"
                 bgColor="#7B61FF"
                 color="white"
                 action={handleShareBoard}

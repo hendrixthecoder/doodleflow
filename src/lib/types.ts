@@ -32,15 +32,15 @@ export type ModalProps = {
 };
 
 export type ContextState = {
-  setLoggedUser: (user: User) => void,
-  user: User | null,
-  boards: Board[] | [],
-  setBoards: Dispatch<SetStateAction<Board[] | []>>,
-  brush: BrushProps,
-  setBrush: Dispatch<SetStateAction<BrushProps>>,
-  boardData: BoardData,
-  setBoardData: Dispatch<SetStateAction<BoardData>>
-}
+  setLoggedUser: (user: User) => void;
+  user: User | null;
+  boards: Board[] | [];
+  setBoards: Dispatch<SetStateAction<Board[] | []>>;
+  brush: BrushProps;
+  setBrush: Dispatch<SetStateAction<BrushProps>>;
+  boardData: BoardData;
+  setBoardData: Dispatch<SetStateAction<BoardData>>;
+};
 
 export type NewUser = {
   unparsedPassword?: string;
@@ -57,7 +57,8 @@ export interface LoginFormObject {
 
 export type Board = {
   id: string,
-  name: string
+  name: string,
+  userId: string
 }
 
 export type BoardsListProps = {

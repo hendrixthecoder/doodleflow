@@ -1,6 +1,5 @@
 import Board from "@/components/Board";
 import { fetchBoard } from "@/lib/utils";
-import Image from "next/image";
 
 type BoardPageProps = {
   params: {

@@ -6,7 +6,7 @@ import { io } from "socket.io-client";
 const socket = io(`${process.env.NEXT_PUBLIC_SERVER_URL}`);
 
 const Canvas = () => {
-  const { brush, boardData, setBoardData } = useStateContext();
+  const { brush,  setBoardData } = useStateContext();
   const { canvasRef, onMouseDown } = useDraw(createALine);
 
   useEffect(() => {
