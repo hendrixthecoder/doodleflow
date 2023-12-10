@@ -1,6 +1,6 @@
 "use client";
 
-import { Board, BrushProps, ContextState, User } from "@/lib/types";
+import { Board, BoardData, BrushProps, ContextState, User } from "@/lib/types";
 import { createContext, useContext, useState } from "react";
 
 const StateContext = createContext<ContextState | null>(null);
@@ -12,6 +12,7 @@ export const ContextProvider = ({
 }) => {
   const [user, setUser] = useState<User | null>(null);
   const [boards, setBoards] = useState<Board[] | []>([]);
+  const [boardData, setBoardData] = useState<BoardData>([]);
   const [brush, setBrush] = useState<BrushProps>({
     lineWidth: 5,
     color: "#000000",
@@ -25,7 +26,16 @@ export const ContextProvider = ({
 
   return (
     <StateContext.Provider
-      value={{ setLoggedUser, user, boards, setBoards, brush, setBrush }}
+      value={{
+        setLoggedUser,
+        user,
+        boards,
+        setBoards,
+        brush,
+        setBrush,
+        boardData,
+        setBoardData,
+      }}
     >
       {children}
     </StateContext.Provider>

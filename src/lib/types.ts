@@ -38,6 +38,8 @@ export type ContextState = {
   setBoards: Dispatch<SetStateAction<Board[] | []>>,
   brush: BrushProps,
   setBrush: Dispatch<SetStateAction<BrushProps>>,
+  boardData: BoardData,
+  setBoardData: Dispatch<SetStateAction<BoardData>>
 }
 
 export type NewUser = {
@@ -83,3 +85,8 @@ export interface BrushProps {
   lineWidth: number,
   color: string
 }
+
+export type BoardData = {
+  prevPoint: Point | null,
+  currentPoint: Point
+}[]

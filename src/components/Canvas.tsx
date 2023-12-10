@@ -6,7 +6,7 @@ import { io } from "socket.io-client";
 const socket = io(`${process.env.NEXT_PUBLIC_SERVER_URL}`);
 
 const Canvas = () => {
-  const { brush } = useStateContext();
+  const { brush, boardData, setBoardData } = useStateContext();
   const { canvasRef, onMouseDown } = useDraw(createALine);
 
   useEffect(() => {
@@ -63,6 +63,7 @@ const Canvas = () => {
   }
 
   function createALine({ prevPoint, currentPoint, ctx }: Draw) {
+    setBoardData((prevState) => [...prevState, { prevPoint, currentPoint }])
     socket.emit("drawLine", ({ prevPoint, currentPoint, color: brush.color, lineWidth: brush.lineWidth }));
     drawALine({ prevPoint, currentPoint, ctx, color: brush.color, lineWidth: brush.lineWidth });
   }
