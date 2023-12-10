@@ -1,4 +1,4 @@
-import { ModalProps } from "@/lib/types";
+import { LogOutModalProps, ModalProps } from "@/lib/types";
 import Button from "../Button";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase";
@@ -6,7 +6,7 @@ import { useStateContext } from "@/contexts/ContextProvider";
 import { useRouter } from "next/navigation";
 import { Toaster, toast } from "react-hot-toast";
 
-const LogoutModal = ({ dialogRef, closeModal }: ModalProps) => {
+const LogoutModal = ({ dialogRef, closeModal }: LogOutModalProps) => {
   const router = useRouter()
   const { setLoggedUser } = useStateContext();
   const handleLogOut = () => {

@@ -1,5 +1,5 @@
 "use client";
-import { ModalProps } from "@/lib/types";
+import { CreateBoardModalProps, ModalProps } from "@/lib/types";
 import Button from "../Button";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase";
@@ -8,7 +8,9 @@ import { toast } from "react-hot-toast";
 import { useStateContext } from "@/contexts/ContextProvider";
 import { useState } from "react";
 
-const CreateBoardModal = ({ dialogRef, closeModal }: ModalProps) => {
+
+
+const CreateBoardModal = ({ dialogRef, closeModal }: CreateBoardModalProps) => {
   const [user] = useAuthState(auth)
   const [boardInput, setBoardInput] = useState<string>("")
   const { boards, setBoards } = useStateContext()

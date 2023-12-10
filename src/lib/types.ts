@@ -32,6 +32,10 @@ export type ModalProps = {
   boardToDelete: string
 };
 
+export type CreateBoardModalProps = Omit<ModalProps, 'boardToDelete'>
+
+export type LogOutModalProps = Omit<ModalProps, 'boardToDelete'>
+
 export type ContextState = {
   setLoggedUser: (user: User) => void;
   user: User | null;
