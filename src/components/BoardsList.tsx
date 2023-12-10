@@ -9,6 +9,8 @@ import { useStateContext } from "@/contexts/ContextProvider";
 import { useRouter } from "next/navigation";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase";
+import AutorenewIcon from "@mui/icons-material/Autorenew";
+import { toast, Toaster } from "react-hot-toast";
 
 const Board = ({
   id,
@@ -49,14 +51,23 @@ const BoardsList = ({ showModal, closeModal }: BoardsListProps) => {
   const { boards, setBoards } = useStateContext();
   const router = useRouter();
   const [user] = useAuthState(auth);
+  const [loading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchUserBoards = async () => {
       const userId = user?.uid;
       if (!userId) return router.push("/login");
-      const userBoards = await fetchBoards(userId);
 
-      setBoards(userBoards);
+      try {
+        setIsLoading(true); 
+        const userBoards = await fetchBoards(userId);
+        setBoards(userBoards);
+      } catch (error) {
+        toast.error("Error fetching boards, try again!")
+
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchUserBoards();
@@ -64,10 +75,21 @@ const BoardsList = ({ showModal, closeModal }: BoardsListProps) => {
 
   const deleteBoardRef = useRef<HTMLDialogElement>(null);
   const [boardToDelete, setBoardToDelete] = useState<string>("");
+  if (loading) {
+    return (
+      <div className="flex items-center gap-3">
+        <p>Fetching boards</p>
+        <AutorenewIcon
+          className="animate-spin text-myPurple"
+          fontSize="large"
+        />
+      </div>
+    );
+  }
 
   return (
     <>
-      {!boards.length && <h1>You current havely no boards.</h1>}
+      {!boards.length && <h1>You currently havely no boards.</h1>}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
         <DeleteBoardModal
           boardToDelete={boardToDelete}
