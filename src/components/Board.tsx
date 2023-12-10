@@ -12,7 +12,6 @@ import Canvas from "./Canvas";
 import Loader from "./Loader";
 import BrushStateDialog from "./dialogs/BrushStateDialog";
 import toast, { Toaster } from "react-hot-toast";
-import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import MenuDialog from "./dialogs/MenuDialog";
 
 const Board = ({ board }: { board: Board }) => {

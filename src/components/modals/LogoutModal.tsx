@@ -11,7 +11,7 @@ const LogoutModal = ({ dialogRef, closeModal }: ModalProps) => {
   const { setLoggedUser } = useStateContext();
   const handleLogOut = () => {
     signOut(auth);
-    setLoggedUser({ email: "", fullName: "", profilePic: "", username: "" });
+    setLoggedUser({ email: "", fullName: "", profilePic: "", username: "", id: "" });
     router.push("/login")
     toast.success("Logged out successfully!")
   };
