@@ -12,9 +12,8 @@ import {
   where,
 } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
-import { Board, NewUser, User, DrawLineProps } from "./types";
+import { Board, NewUser, User } from "./types";
 import { notFound } from "next/navigation";
-import { useStateContext } from "@/contexts/ContextProvider";
 
 export const createUser = async (formData: FormData) => {
   const unparsedUsername = formData.get("username")?.toString();
@@ -54,7 +53,7 @@ export const createUser = async (formData: FormData) => {
     const userRef = doc(db, "users", user.uid);
     const userSnap = await getDoc(userRef);
     const userFields = userSnap.data() as User;
-    
+
     return { userId: user.uid, user: userFields }; //Return user information to use to set user state
   } catch (error) {
     if (error instanceof Error) {
@@ -105,16 +104,15 @@ export const fetchBoards = async (userId: string) => {
 
   const boards = boardsSnapshot.docs.map((doc) => ({
     id: doc.id,
-    ...doc.data()
+    ...doc.data(),
   })) as Board[];
-  
+
   return boards;
 };
 
 export const createBoard = async (formData: FormData) => {
-
   try {
-    const { boardName, userId } = parseBoardFields(formData)
+    const { boardName, userId } = parseBoardFields(formData);
     // Get the Firestore collection reference for "boards"
     const boardsCollection = collection(db, "boards");
 
@@ -133,27 +131,25 @@ export const createBoard = async (formData: FormData) => {
 };
 
 const parseBoardFields = (formData: FormData) => {
-  const boardName = formData.get("name")
-  const userId = formData.get("userId")
+  const boardName = formData.get("name");
+  const userId = formData.get("userId");
 
-  if (!boardName || !userId) throw new Error('Board name is required!')
-  return { boardName, userId }
-}
+  if (!boardName || !userId) throw new Error("Board name is required!");
+  return { boardName, userId };
+};
 
 export const fetchBoard = async (id: string) => {
   try {
-    if (!id) throw new Error('Invalid board id!')
+    if (!id) throw new Error("Invalid board id!");
 
-    const boardRef = doc(db, 'boards', id)
-    const boardSnapshot = await getDoc(boardRef)
+    const boardRef = doc(db, "boards", id);
+    const boardSnapshot = await getDoc(boardRef);
 
-    if (!boardSnapshot.exists()) throw new Error('Board not found!')
-    const boardData = boardSnapshot.data()
-  delete boardData.userId
-  const board = { name: boardData.name, id }
-  return board as Board
-    
+    if (!boardSnapshot.exists()) throw new Error("Board not found!");
+    const boardData = boardSnapshot.data();
+    return { ...boardData, id } as Board;
+
   } catch (error) {
-    notFound()
+    notFound();
   }
-}
+};

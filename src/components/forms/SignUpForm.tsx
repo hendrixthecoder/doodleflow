@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Image from "next/image";
 import Button from "../Button";
 import { FirebaseError } from "firebase/app";
@@ -8,21 +8,20 @@ import { useStateContext } from "@/contexts/ContextProvider";
 import { Toaster, toast } from "react-hot-toast";
 
 const SignUpForm = () => {
-  const { setLoggedUser } = useStateContext()
+  const { setLoggedUser } = useStateContext();
   const router = useRouter();
 
   const handleLoginForm = async (formData: FormData) => {
     try {
-      const { user } = await createUser(formData);
-      toast.success("Account created successfully!")
-      setLoggedUser(user)
-      router.push('/')
-
+      const { user, userId } = await createUser(formData);
+      toast.success("Account created successfully!");
+      setLoggedUser({ ...user, id: userId });
+      router.push("/");
     } catch (error) {
       if (error instanceof Error) {
-        toast.error(error.message)
+        toast.error(error.message);
       } else {
-        toast.error("Error signing up, try later.")
+        toast.error("Error signing up, try later.");
       }
     }
   };

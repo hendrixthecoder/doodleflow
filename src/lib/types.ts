@@ -14,7 +14,8 @@ export type User = {
   username: string,
   email: string,
   fullName: string,
-  profilePic: string
+  profilePic: string,
+  id: string
 }
 
 export type BoardProps = {

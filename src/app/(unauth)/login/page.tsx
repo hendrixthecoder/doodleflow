@@ -10,14 +10,13 @@ import { useRouter } from "next/navigation";
 import { FirebaseError } from "firebase/app";
 import { UserCredential } from "firebase/auth";
 import { useStateContext } from "@/contexts/ContextProvider";
-import { toast, Toaster } from 'react-hot-toast'
+import { toast, Toaster } from "react-hot-toast";
 import { doc, getDoc } from "firebase/firestore";
 
-
 const Page = () => {
-  const { setLoggedUser, user } = useStateContext()
+  const { setLoggedUser, user } = useStateContext();
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
-  const router = useRouter()
+  const router = useRouter();
   const [formBody, setFormBody] = useState<LoginFormObject>({
     email: "",
     password: "",
@@ -27,23 +26,25 @@ const Page = () => {
 
   const handleLogin = async () => {
     try {
-      const { user } = await signInWithEmailAndPassword(email, password) as UserCredential;
-      
-      const userDocRef = doc(db, "users", user.uid)
-      const userDocSnapshot = await getDoc(userDocRef)
-      const userData = userDocSnapshot.data() as User
-      
-      setFormBody({ email: "", password: "" });
-      setLoggedUser(userData)
-      
-      router.push("/")
-      toast.success("Logged in successfully!")
+      const { user } = (await signInWithEmailAndPassword(
+        email,
+        password
+      )) as UserCredential;
 
+      const userDocRef = doc(db, "users", user.uid);
+      const userDocSnapshot = await getDoc(userDocRef);
+      const userData = userDocSnapshot.data() as User;
+
+      setFormBody({ email: "", password: "" });
+      setLoggedUser({ ...userData, id: user.uid });
+
+      router.push("/");
+      toast.success("Logged in successfully!");
     } catch (error) {
-      const firebaseError = error as FirebaseError
+      const firebaseError = error as FirebaseError;
       console.log(firebaseError.message);
-      
-      toast.error("Invalid credentials!")
+
+      toast.error("Invalid credentials!");
     }
   };
 

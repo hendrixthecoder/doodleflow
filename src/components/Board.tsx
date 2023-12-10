@@ -21,11 +21,14 @@ const Board = ({ board }: { board: Board }) => {
 
   const handleShareBoard = () => {
     const boardLink = `${process.env.NEXT_PUBLIC_APP_URL}/boards/${board.id}`;
-    if(!boardLink) return 
-    navigator.clipboard.writeText(boardLink)
-      .then(() => toast.success('Link copied successfully!'))
-      .catch((error) => toast.error('Unable to copy link to clipboard. Please try again.'))
-  }
+    if (!boardLink) return;
+    navigator.clipboard
+      .writeText(boardLink)
+      .then(() => toast.success("Link copied successfully!"))
+      .catch((error) =>
+        toast.error("Unable to copy link to clipboard. Please try again.")
+      );
+  };
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (authUser) => {
@@ -38,7 +41,7 @@ const Board = ({ board }: { board: Board }) => {
         const userSnap = await getDoc(userRef);
         const userData = userSnap.data();
         delete userData?.password;
-        setLoggedUser(userData as User);
+        setLoggedUser({ ...userData, id: authUser.uid } as User);
       }
     });
 

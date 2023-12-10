@@ -19,8 +19,6 @@ export const ContextProvider = ({
   });
 
   const setLoggedUser = (userObject: User) => {
-    const user = JSON.stringify(userObject);
-    localStorage.setItem("user", user);
     setUser(userObject);
   };
 
