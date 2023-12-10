@@ -15,19 +15,6 @@ const MenuDialog = ({ board }: MenuDialogProps) => {
   const { menuDialogRef, toggleMenu, isOpen } = useToggleBrushModal();
   const { user } = useStateContext();
 
-  const handleShareBoard = () => {
-    const boardLink = `${process.env.NEXT_PUBLIC_APP_URL}/boards/${board.id}`;
-
-    if (!boardLink) return;
-
-    navigator.clipboard
-      .writeText(boardLink)
-      .then(() => toast.success("Link copied successfully!"))
-      .catch((error) =>
-        toast.error("Unable to copy link to clipboard. Please try again.")
-      );
-  };
-
   const handleSave = async () => {
     try {
       const canvas = document.getElementById("canvas") as HTMLCanvasElement;
@@ -67,9 +54,9 @@ const MenuDialog = ({ board }: MenuDialogProps) => {
                 color="red"
                 value="Delete"
               />
-              <InviteModal board={board}/>
             </>
           )}
+          <InviteModal board={board}/>
           <form action={handleSave}>
             <Button
               type="button"

@@ -31,10 +31,10 @@ const InviteModal = ({ board }: { board: Board }) => {
   };
 
   return (
-    <div className="flex sm:block max-sm:hidden">
+    <div className="flex ">
       <Button
         type="button"
-        classes="text-xs hidden max-sm:block"
+        classes="text-xs"
         bgColor="#7B61FF"
         color="white"
         action={toggleModal}

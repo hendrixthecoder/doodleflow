@@ -60,16 +60,23 @@ const Board = ({ board }: { board: Board }) => {
               </div>
             </div>
             <div className="">{board.name}</div>
+            {/* Mobile */}
             <MenuDialog board={board} />
             <div className="flex gap-3">
-              <Button
-                type="button"
-                classes="border text-xs max-sm:hidden"
-                bgColor="white"
-                color="red"
-                value="Delete"
-              />
-              <InviteModal board={board}/>
+              {
+                board.userId === user.id && (
+                  <Button
+                    type="button"
+                    classes="border text-xs max-sm:hidden"
+                    bgColor="white"
+                    color="red"
+                    value="Delete"
+                  />
+                )
+              }
+              <div className="max-sm:hidden">
+                <InviteModal board={board}/>
+              </div>
               <div className="rounded-full overflow-hidden w-[40px]">
                 <Image
                   alt="Profile picture"
