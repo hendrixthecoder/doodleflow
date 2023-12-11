@@ -63,8 +63,27 @@ const Board = ({ board }: { board: Board }) => {
       });
     });
 
+    socket.on("removeUser", (newUser: User) => {
+      setCollaborators((prevState) => {
+        // Use filter to create a new array excluding the removed user
+        const updatedCollaborators = prevState.filter(
+          (person) => person.id !== newUser.id
+        );
+
+        return updatedCollaborators;
+      });
+    });
+
+    //Send data of User leaving to server so they can be filtered out
+    const handleBeforeUnload = () => {
+      socket.emit("userLeft", newUser);
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
     return () => {
       socket.off("addNewUser");
+      socket.off("removeUser");
     };
   });
 
@@ -121,10 +140,22 @@ const Board = ({ board }: { board: Board }) => {
               isSideBarOpen ? "w-[200px]" : "w-[55px]"
             } border shadow bottom-0 top-14 max-sm:hidden bg-white`}
           >
-            <div className={`flex flex-col ${isSideBarOpen ? '' : 'hidden'} gap-3 p-3`}>
-              <div className="flex justify-between items-center" onClick={toggleSideBar}>
+            <div
+              className={`flex flex-col ${
+                isSideBarOpen ? "" : "hidden"
+              } gap-3 p-3`}
+            >
+              <div
+                className="flex justify-between items-center"
+                onClick={toggleSideBar}
+              >
                 <h2 className="font-bold">Online People</h2>
-                <Image width={10} height={10} alt="Arrow Right Icon" src="/icons/arrow-right.svg"/>
+                <Image
+                  width={10}
+                  height={10}
+                  alt="Arrow Right Icon"
+                  src="/icons/arrow-right.svg"
+                />
               </div>
               {collaborators.length >= 1 &&
                 collaborators.map((collaborator) => (
