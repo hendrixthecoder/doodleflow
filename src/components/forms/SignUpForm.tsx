@@ -1,14 +1,17 @@
 "use client";
 import Image from "next/image";
 import Button from "../Button";
-import { FirebaseError } from "firebase/app";
 import { createUser } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useStateContext } from "@/contexts/ContextProvider";
 import { Toaster, toast } from "react-hot-toast";
+import { useState } from "react";
+import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 
 const SignUpForm = () => {
   const { setLoggedUser } = useStateContext();
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const router = useRouter();
 
   const handleLoginForm = async (formData: FormData) => {
@@ -85,12 +88,22 @@ const SignUpForm = () => {
           height="20"
         />
         <input
-          type="password"
+          type={showPassword ? "text" : "password"}
           className="border rounded w-full auth-form text-xs sm:text-base placeholder:text-xs"
           name="password"
           placeholder="Password"
           required
         />
+        <div
+          onClick={() => setShowPassword(!showPassword)}
+          className="absolute text-xs right-2 z-10 top-1 sm:top-2 text-[#6F6F6F]"
+        >
+          {showPassword ? (
+            <VisibilityOffOutlinedIcon />
+          ) : (
+            <VisibilityOutlinedIcon />
+          )}
+        </div>
       </div>
       <div className="relative">
         <Image
@@ -101,12 +114,22 @@ const SignUpForm = () => {
           height="20"
         />
         <input
-          type="password"
+          type={showPassword ? "text" : "password"}
           className="border rounded w-full auth-form text-xs sm:text-base placeholder:text-xs"
           name="confPassword"
           placeholder="Confirm Password"
           required
         />
+        <div
+          onClick={() => setShowPassword(!showPassword)}
+          className="absolute text-xs right-2 z-10 top-1 sm:top-2 text-[#6F6F6F]"
+        >
+          {showPassword ? (
+            <VisibilityOffOutlinedIcon />
+          ) : (
+            <VisibilityOutlinedIcon />
+          )}
+        </div>
       </div>
       <Button
         type="submit"

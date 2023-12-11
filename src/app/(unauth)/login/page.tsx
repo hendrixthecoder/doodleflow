@@ -12,9 +12,12 @@ import { UserCredential } from "firebase/auth";
 import { useStateContext } from "@/contexts/ContextProvider";
 import { toast, Toaster } from "react-hot-toast";
 import { doc, getDoc } from "firebase/firestore";
+import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 
 const Page = () => {
   const { setLoggedUser, user } = useStateContext();
+  const [showPassword, setShowPassword] = useState<boolean>(false)
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
   const router = useRouter();
   const [formBody, setFormBody] = useState<LoginFormObject>({
@@ -81,12 +84,22 @@ const Page = () => {
             setFormBody({ ...formBody, password: e.target.value })
           }
           value={password}
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           className="border rounded w-full auth-form text-xs sm:text-base placeholder:text-xs"
           name="password"
           placeholder="Password"
           required
         />
+        <div
+          onClick={() => setShowPassword(!showPassword)}
+          className="absolute text-xs right-2 z-10 top-1 sm:top-2 text-[#6F6F6F]"
+        >
+          {showPassword ? (
+            <VisibilityOffOutlinedIcon />
+          ) : (
+            <VisibilityOutlinedIcon />
+          )}
+        </div>
       </div>
       <Button
         type="submit"
