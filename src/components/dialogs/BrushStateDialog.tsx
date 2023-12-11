@@ -10,9 +10,18 @@ const BrushStateDialog = () => {
 
   return (
     <>
-      <button onClick={toggleBrush} className={`flex items-center h-[55px] px-3 gap-2 ${isOpen && 'bg-myPurple'}`}>
-        <CreateOutlinedIcon className={`text-[20px] ${isOpen && 'text-white'}`} />
-        <KeyboardArrowDownIcon className={`text-[16px] ${isOpen && 'text-white'}`}/>
+      <button
+        onClick={toggleBrush}
+        className={`flex items-center h-[55px] px-3 gap-2 ${
+          isOpen && "bg-myPurple"
+        }`}
+      >
+        <CreateOutlinedIcon
+          className={`text-[20px] ${isOpen && "text-white"}`}
+        />
+        <KeyboardArrowDownIcon
+          className={`text-[16px] ${isOpen && "text-white"}`}
+        />
       </button>
       <dialog
         ref={brushModalRef}
@@ -23,14 +32,14 @@ const BrushStateDialog = () => {
             <span className="text-sm">Stroke Size</span>
             <div className="flex justify-between items-center">
               {strokeSizes.map((stroke, index) => (
-                <>
-                  <button
-                    key={index}
-                    style={{ padding: `${stroke}px` }}
-                    className={` bg-[#F1F1F1] rounded-full ${stroke === brush.lineWidth && 'selected-stroke'}`}
-                    onClick={() => setBrush({ ...brush, lineWidth: stroke })}
-                  ></button>
-                </>
+                <button
+                  key={index}
+                  style={{ padding: `${stroke}px` }}
+                  className={` bg-[#F1F1F1] rounded-full ${
+                    stroke === brush.lineWidth && "selected-stroke"
+                  }`}
+                  onClick={() => setBrush({ ...brush, lineWidth: stroke })}
+                ></button>
               ))}
             </div>
           </div>
@@ -38,16 +47,14 @@ const BrushStateDialog = () => {
             <span className="text-sm">Color</span>
             <div className="flex justify-between items-center">
               {strokeColors.map((color, index) => (
-                <>
-                  <button
-                    key={index}
-                    style={{ backgroundColor: `${color}` }}
-                    className={`p-4 rounded-md ${
-                      color === brush.color && "selected-color"
-                    }`}
-                    onClick={() => setBrush({ ...brush, color })}
-                  ></button>
-                </>
+                <button
+                  key={index}
+                  style={{ backgroundColor: `${color}` }}
+                  className={`p-4 rounded-md ${
+                    color === brush.color && "selected-color"
+                  }`}
+                  onClick={() => setBrush({ ...brush, color })}
+                ></button>
               ))}
             </div>
           </div>
