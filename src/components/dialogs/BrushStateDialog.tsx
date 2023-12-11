@@ -25,7 +25,7 @@ const BrushStateDialog = () => {
       </button>
       <dialog
         ref={brushModalRef}
-        className="w-[20vw] min-w-[300px] border p-4 px-5 shadow-xl rounded-xl mt-6"
+        className="w-[20vw] min-w-[300px] border p-4 px-5 shadow-xl rounded-xl mt-2"
       >
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-1">
