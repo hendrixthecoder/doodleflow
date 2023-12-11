@@ -20,7 +20,7 @@ export default function RootLayout({
           className={`h-[100svh] w-full flex justify-center place-items-center`}
         >
           <div className="border border-myPurple w-[70%] h-[70%] max-w-xl rounded-2xl flex flex-col place-items-center">
-            <div className="flex flex-col gap-10 h-full justify-center items-center w-[70%] ">
+            <div className="flex flex-col gap-10 h-full justify-center items-center w-[80%]">
               <p className={`${montez.className} text-[2rem]`}>DoodleFlow</p>
               {children}
             </div>

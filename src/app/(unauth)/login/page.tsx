@@ -52,7 +52,7 @@ const Page = () => {
   };
 
   return (
-    <form action={handleLogin} className="flex flex-col gap-3 w-[90%] ">
+    <form action={handleLogin} className="flex flex-col gap-3 w-[100%] ">
       <div className="relative">
         <Image
           alt="Profile icon"
