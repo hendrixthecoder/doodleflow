@@ -16,6 +16,15 @@ const MenuDialog = ({ board }: MenuDialogProps) => {
   const { menuDialogRef, toggleMenu, isOpen } = useToggleBrushModal();
   const { user } = useStateContext();
 
+  const clear = () => {
+    const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  };
+
   const handleSave = async () => {
     try {
       const canvas = document.getElementById("canvas") as HTMLCanvasElement;
@@ -43,13 +52,11 @@ const MenuDialog = ({ board }: MenuDialogProps) => {
       </button>
       <dialog
         ref={menuDialogRef}
-        className=" border p-4 px-5 shadow-xl rounded-xl absolute -left-[10rem] top-16"
+        className=" border p-4 px-5 shadow-xl rounded-xl absolute -left-[14rem] top-16"
       >
         <div className="flex justify-between gap-5">
-          {board.userId === user?.id && (
-            <DeleteBoard board={board} />
-          )}
-          <InviteModal board={board}/>
+          {board.userId === user?.id && <DeleteBoard board={board} />}
+          <InviteModal board={board} />
           <form action={handleSave}>
             <Button
               type="button"
@@ -60,9 +67,17 @@ const MenuDialog = ({ board }: MenuDialogProps) => {
               value="Save"
             />
           </form>
+          <Button
+            color="red"
+            bgColor="white"
+            type="button"
+            value="Clear"
+            classes="border rounded text-xs"
+            action={clear}
+          />
         </div>
       </dialog>
-      <Toaster/>
+      <Toaster />
     </div>
   );
 };

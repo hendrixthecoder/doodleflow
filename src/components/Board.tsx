@@ -10,11 +10,13 @@ import Link from "next/link";
 import Canvas from "./Canvas";
 import Loader from "./Loader";
 import BrushStateDialog from "./dialogs/BrushStateDialog";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import MenuDialog from "./dialogs/MenuDialog";
 import InviteModal from "./modals/InviteModal";
 import DeleteBoard from "./modals/DeleteBoard";
 import { io } from "socket.io-client";
+import Button from "./Button";
+import { saveBoard } from "@/lib/utils";
 const socket = io(`${process.env.NEXT_PUBLIC_SERVER_URL}`);
 
 const Board = ({ board }: { board: Board }) => {
@@ -27,6 +29,32 @@ const Board = ({ board }: { board: Board }) => {
     setCollaborators,
   } = useStateContext();
   const router = useRouter();
+
+  const clear = () => {
+    const canvas = document.getElementById("canvas") as HTMLCanvasElement
+    if (!canvas) return
+    
+    const ctx = canvas.getContext("2d")
+    if (!ctx) return
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+  }
+
+    const handleSave = async () => {
+    try {
+      const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+      if (!canvas) return;
+      const boardData = canvas.toDataURL();
+
+      await saveBoard(board.id, boardData);
+      toast.success("Doodle saved successfully!");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("Error saving board, try later.");
+      }
+    }
+  };
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (authUser) => {
@@ -53,15 +81,9 @@ const Board = ({ board }: { board: Board }) => {
     socket.emit("ready", newUser);
 
     socket.on("addNewUser", (user: User) => {
-      console.log(user);
-      
       setCollaborators((prevState) => {
         // Check if the user is already in the array
         const userExists = prevState.some((person) => person.id === user.id);
-        // console.log(userExists);
-        console.log([...prevState, newUser]);
-        
-        
 
         // If not, add the new user to the array
         return userExists ? prevState : [...prevState, user];
@@ -126,6 +148,28 @@ const Board = ({ board }: { board: Board }) => {
               )}
               <div className="max-sm:hidden">
                 <InviteModal board={board} />
+              </div>
+              <div className="max-sm:hidden">
+                <Button
+                  color="red"
+                  bgColor="white"
+                  type="button"
+                  value="Clear"
+                  classes="border rounded text-xs"
+                  action={clear}
+                />
+              </div>
+              <div className="max-sm:hidden">
+                <form action={handleSave}>
+                  <Button
+                    type="button"
+                    classes="text-xs"
+                    bgColor="#7B61FF"
+                    color="white"
+                    action={handleSave}
+                    value="Save"
+                  />
+                </form>
               </div>
               {/* Large Menu */}
               <div className="rounded-full overflow-hidden w-[40px]">
