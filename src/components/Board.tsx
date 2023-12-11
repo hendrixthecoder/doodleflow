@@ -17,7 +17,6 @@ import InviteModal from "./modals/InviteModal";
 import DeleteBoard from "./modals/DeleteBoard";
 
 const Board = ({ board }: { board: Board }) => {
-  
   const { setLoggedUser, user } = useStateContext();
   const router = useRouter();
 
@@ -61,17 +60,21 @@ const Board = ({ board }: { board: Board }) => {
               </div>
             </div>
             <div className="">{board.name}</div>
-            {/* Mobile */}
+            {/* Mobile Menu*/}
             <MenuDialog board={board} />
+            {/* Mobile Menu*/}
+
+            {/* Large Menu */}
             <div className="flex gap-3">
-              {
-                board.userId === user.id && (
-                  <DeleteBoard board={board}/>
-                )
-              }
+              {board.userId === user.id && (
+                <div className="max-sm:hidden">
+                  <DeleteBoard board={board} />
+                </div>
+              )}
               <div className="max-sm:hidden">
-                <InviteModal board={board}/>
+                <InviteModal board={board} />
               </div>
+              {/* Large Menu */}
               <div className="rounded-full overflow-hidden w-[40px]">
                 <Image
                   alt="Profile picture"

@@ -89,7 +89,7 @@ const BoardsList = ({ showModal, closeModal }: BoardsListProps) => {
 
   return (
     <>
-      {!boards.length && <h1>You currently havely no boards.</h1>}
+      {!boards.length && <h1>You currently have no boards.</h1>}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
         <DeleteBoardModal
           boardToDelete={boardToDelete}
