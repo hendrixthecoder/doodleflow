@@ -14,6 +14,7 @@ import BrushStateDialog from "./dialogs/BrushStateDialog";
 import toast, { Toaster } from "react-hot-toast";
 import MenuDialog from "./dialogs/MenuDialog";
 import InviteModal from "./modals/InviteModal";
+import DeleteBoard from "./modals/DeleteBoard";
 
 const Board = ({ board }: { board: Board }) => {
   
@@ -65,13 +66,7 @@ const Board = ({ board }: { board: Board }) => {
             <div className="flex gap-3">
               {
                 board.userId === user.id && (
-                  <Button
-                    type="button"
-                    classes="border text-xs max-sm:hidden"
-                    bgColor="white"
-                    color="red"
-                    value="Delete"
-                  />
+                  <DeleteBoard board={board}/>
                 )
               }
               <div className="max-sm:hidden">

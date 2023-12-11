@@ -6,6 +6,7 @@ import Button from "../Button";
 import { useStateContext } from "@/contexts/ContextProvider";
 import { saveBoard } from "@/lib/utils";
 import InviteModal from "../modals/InviteModal";
+import DeleteBoard from "../modals/DeleteBoard";
 
 type MenuDialogProps = {
   board: Board;
@@ -46,15 +47,7 @@ const MenuDialog = ({ board }: MenuDialogProps) => {
       >
         <div className="flex justify-between gap-5">
           {board.userId === user?.id && (
-            <>
-              <Button
-                type="button"
-                classes="border text-xs"
-                bgColor="white"
-                color="red"
-                value="Delete"
-              />
-            </>
+            <DeleteBoard board={board} />
           )}
           <InviteModal board={board}/>
           <form action={handleSave}>
