@@ -7,7 +7,7 @@ const socket = io(`${process.env.NEXT_PUBLIC_SERVER_URL}`);
 
 const Canvas = ({ boardData }: { boardData: string}) => {
   const { brush } = useStateContext();
-  const { canvasRef, onMouseDown } = useDraw(createALine);
+  const { canvasRef, onMouseDown, clear } = useDraw(createALine);
 
   useEffect(() => {
     if (!canvasRef.current) return
@@ -33,6 +33,8 @@ const Canvas = ({ boardData }: { boardData: string}) => {
         drawALine({ prevPoint, currentPoint, ctx, color, lineWidth });
       }
     );
+
+    socket.on("clearBoard", clear);
   }, [canvasRef]);
 
   useEffect(() => {

@@ -14,10 +14,9 @@ import toast, { Toaster } from "react-hot-toast";
 import MenuDialog from "./dialogs/MenuDialog";
 import InviteModal from "./modals/InviteModal";
 import DeleteBoard from "./modals/DeleteBoard";
-import { io } from "socket.io-client";
 import Button from "./Button";
 import { saveBoard } from "@/lib/utils";
-const socket = io(`${process.env.NEXT_PUBLIC_SERVER_URL}`);
+import { socket } from "@/lib/tools";
 
 const Board = ({ board }: { board: Board }) => {
   const {
@@ -37,6 +36,8 @@ const Board = ({ board }: { board: Board }) => {
     const ctx = canvas.getContext("2d")
     if (!ctx) return
     ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    socket.emit("clear")
   }
 
     const handleSave = async () => {

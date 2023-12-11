@@ -17,7 +17,7 @@ import {
 import { FirebaseError } from "firebase/app";
 import { Board, NewUser, User } from "./types";
 import { notFound } from "next/navigation";
-
+import { io } from "socket.io-client"
 
 export const createUser = async (formData: FormData) => {
   const unparsedUsername = formData.get("username")?.toString();

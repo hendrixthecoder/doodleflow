@@ -7,6 +7,7 @@ import { useStateContext } from "@/contexts/ContextProvider";
 import { saveBoard } from "@/lib/utils";
 import InviteModal from "../modals/InviteModal";
 import DeleteBoard from "../modals/DeleteBoard";
+import { socket } from "@/lib/tools";
 
 type MenuDialogProps = {
   board: Board;
@@ -23,6 +24,8 @@ const MenuDialog = ({ board }: MenuDialogProps) => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    socket.emit("clear")
   };
 
   const handleSave = async () => {
