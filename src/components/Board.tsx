@@ -1,6 +1,6 @@
 "use client";
 import { Board, User } from "@/lib/types";
-import Image from "next/image";
+import NextImage from "next/image";
 import { useStateContext } from "@/contexts/ContextProvider";
 import { auth, db } from "@/firebase";
 import { useEffect } from "react";
@@ -30,17 +30,17 @@ const Board = ({ board }: { board: Board }) => {
   const router = useRouter();
 
   const clear = () => {
-    const canvas = document.getElementById("canvas") as HTMLCanvasElement
-    if (!canvas) return
-    
-    const ctx = canvas.getContext("2d")
-    if (!ctx) return
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+    if (!canvas) return;
 
-    socket.emit("clear")
-  }
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    const handleSave = async () => {
+    socket.emit("clear");
+  };
+
+  const handleSave = async () => {
     try {
       const canvas = document.getElementById("canvas") as HTMLCanvasElement;
       if (!canvas) return;
@@ -81,6 +81,12 @@ const Board = ({ board }: { board: Board }) => {
     const newUser = user;
     socket.emit("ready", newUser);
 
+    socket.on("get-canvas-state", () => {
+      const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+      if (!canvas.toDataURL()) return;
+      socket.emit("canvas-state", canvas.toDataURL());
+    });
+
     socket.on("addNewUser", (user: User) => {
       setCollaborators((prevState) => {
         // Check if the user is already in the array
@@ -89,6 +95,20 @@ const Board = ({ board }: { board: Board }) => {
         // If not, add the new user to the array
         return userExists ? prevState : [...prevState, user];
       });
+    });
+    
+    socket.on("canvas-state-from-server", (state: string) => {
+      console.log("i recieved the state");
+      const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      
+      const img = new Image();
+      img.src = state;
+      img.onload = () => {
+        ctx?.drawImage(img, 0, 0);
+      };
     });
 
     socket.on("removeUser", (newUser: User) => {
@@ -124,7 +144,7 @@ const Board = ({ board }: { board: Board }) => {
           <header className="border-b px-4 w-full justify-between flex shadow items-center">
             <div className="flex gap-3 items-center">
               <Link href="/">
-                <Image
+                <NextImage
                   src="/icons/home.svg"
                   width={22}
                   height={18}
@@ -174,7 +194,7 @@ const Board = ({ board }: { board: Board }) => {
               </div>
               {/* Large Menu */}
               <div className="rounded-full overflow-hidden w-[40px]">
-                <Image
+                <NextImage
                   alt="Profile picture"
                   className=""
                   width={40}
@@ -200,7 +220,7 @@ const Board = ({ board }: { board: Board }) => {
                 onClick={toggleSideBar}
               >
                 <h2 className="font-bold">Online People</h2>
-                <Image
+                <NextImage
                   width={10}
                   height={10}
                   alt="Arrow Right Icon"
@@ -213,7 +233,7 @@ const Board = ({ board }: { board: Board }) => {
                     className="flex gap-3 items-center text-xs"
                     key={collaborator.id}
                   >
-                    <Image
+                    <NextImage
                       width={30}
                       height={10}
                       className="rounded-full"
