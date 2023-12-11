@@ -151,7 +151,7 @@ const Board = ({ board }: { board: Board }) => {
               } gap-3 p-3`}
             >
               <div
-                className="flex justify-between items-center"
+                className="flex justify-between items-center rounded-md hover:border hover:bg-slate-100 cursor-pointer p-1 px-2"
                 onClick={toggleSideBar}
               >
                 <h2 className="font-bold">Online People</h2>
