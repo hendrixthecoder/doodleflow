@@ -30,7 +30,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <form action={handleLoginForm} className="flex flex-col gap-3 w-[90%] ">
+    <form action={handleLoginForm} className="flex flex-col gap-3 w-[100%] ">
       <div className="relative">
         <Image
           alt="Profile icon"

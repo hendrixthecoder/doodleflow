@@ -1,7 +1,6 @@
 "use client";
 import { Board, User } from "@/lib/types";
 import Image from "next/image";
-import Button from "./Button";
 import { useStateContext } from "@/contexts/ContextProvider";
 import { auth, db } from "@/firebase";
 import { useEffect } from "react";
@@ -11,7 +10,7 @@ import Link from "next/link";
 import Canvas from "./Canvas";
 import Loader from "./Loader";
 import BrushStateDialog from "./dialogs/BrushStateDialog";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import MenuDialog from "./dialogs/MenuDialog";
 import InviteModal from "./modals/InviteModal";
 import DeleteBoard from "./modals/DeleteBoard";
