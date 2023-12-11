@@ -12,6 +12,8 @@ export const ContextProvider = ({
 }) => {
   const [user, setUser] = useState<User | null>(null);
   const [boards, setBoards] = useState<Board[] | []>([]);
+  const [isSideBarOpen, setIsSideBarOpen] = useState<boolean>(false)
+  const [collaborators, setCollaborators] = useState<User[]>([])
   const [brush, setBrush] = useState<BrushProps>({
     lineWidth: 5,
     color: "#000000",
@@ -20,6 +22,10 @@ export const ContextProvider = ({
   const setLoggedUser = (userObject: User) => {
     setUser(userObject);
   };
+
+  const toggleSideBar = () => {
+    setIsSideBarOpen(!isSideBarOpen)
+  }
 
   return (
     <StateContext.Provider
@@ -30,6 +36,10 @@ export const ContextProvider = ({
         setBoards,
         brush,
         setBrush,
+        isSideBarOpen,
+        toggleSideBar,
+        collaborators,
+        setCollaborators,
       }}
     >
       {children}

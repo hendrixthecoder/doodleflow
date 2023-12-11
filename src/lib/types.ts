@@ -43,6 +43,10 @@ export type ContextState = {
   setBoards: Dispatch<SetStateAction<Board[] | []>>;
   brush: BrushProps;
   setBrush: Dispatch<SetStateAction<BrushProps>>;
+  isSideBarOpen: boolean;
+  toggleSideBar: () => void;
+  collaborators: User[]
+  setCollaborators: Dispatch<SetStateAction<User[]>>
 };
 
 export type NewUser = {

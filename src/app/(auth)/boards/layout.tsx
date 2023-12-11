@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
           <body className={montserrat.className}>
-              <main className="flex flex-col h-[100svh]">
+              <main className="flex flex-col h-[100svh] relative">
                 {children}
             </main>
         </body>
