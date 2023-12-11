@@ -53,12 +53,18 @@ const Board = ({ board }: { board: Board }) => {
     socket.emit("ready", newUser);
 
     socket.on("addNewUser", (user: User) => {
+      console.log(user);
+      
       setCollaborators((prevState) => {
         // Check if the user is already in the array
-        const userExists = prevState.some((person) => person.id === newUser.id);
+        const userExists = prevState.some((person) => person.id === user.id);
+        // console.log(userExists);
+        console.log([...prevState, newUser]);
+        
+        
 
         // If not, add the new user to the array
-        return userExists ? prevState : [...prevState, newUser];
+        return userExists ? prevState : [...prevState, user];
       });
     });
 
@@ -159,7 +165,7 @@ const Board = ({ board }: { board: Board }) => {
               {collaborators.length >= 1 &&
                 collaborators.map((collaborator) => (
                   <div
-                    className="flex gap-3 items-center"
+                    className="flex gap-3 items-center text-xs"
                     key={collaborator.id}
                   >
                     <Image
