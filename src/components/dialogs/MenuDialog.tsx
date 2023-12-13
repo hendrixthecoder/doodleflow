@@ -62,11 +62,10 @@ const MenuDialog = ({ board }: MenuDialogProps) => {
           <InviteModal board={board} />
           <form action={handleSave}>
             <Button
-              type="button"
+              type="submit"
               classes="text-xs"
               bgColor="#7B61FF"
               color="white"
-              action={handleSave}
               value="Save"
             />
           </form>

@@ -2,27 +2,24 @@ import { useStateContext } from "@/contexts/ContextProvider";
 import { useDraw } from "@/hooks/useDraw";
 import { Draw, DrawLineProps } from "@/lib/types";
 import { useEffect } from "react";
-import { io } from "socket.io-client";
-const socket = io(`${process.env.NEXT_PUBLIC_SERVER_URL}`);
+import { socket } from "@/lib/tools";
 
-const Canvas = ({ boardData }: { boardData: string}) => {
+const Canvas = ({ boardData }: { boardData: string }) => {
   const { brush } = useStateContext();
   const { canvasRef, onMouseDown, clear } = useDraw(createALine);
 
   useEffect(() => {
-    if (!canvasRef.current) return
-    const canvas = canvasRef.current
-    const ctx = canvas.getContext("2d")
+    if (!canvasRef.current) return;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
 
-    ctx?.clearRect(0, 0, canvas.width, canvas.height)
-    const img = new Image()
-    img.src = boardData
+    ctx?.clearRect(0, 0, canvas.width, canvas.height);
+    const img = new Image();
+    img.src = boardData;
     img.onload = () => {
-      ctx?.drawImage(img, 0, 0)
-    }
-
-  }, [boardData])
-  
+      ctx?.drawImage(img, 0, 0);
+    };
+  }, [boardData]);
 
   useEffect(() => {
     const ctx = canvasRef.current?.getContext("2d");
