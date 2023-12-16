@@ -3,6 +3,26 @@
 ## Description
 Drawing Collaboration App built with NextJS for UI, Firebase for Auth, TypeScript for type safety, and WebSockets for Real-time drawing updates.
 
+## Usage
+
+1. **Sign Up:**
+   - Create an account.
+2. **Start Drawing:**
+   - Initiate your canvas, pick tools, and unleash your creativity.
+
+3. **Share Your Board:**
+   - Invite friends or colleagues to join and collaborate in real-time once they sign in.
+
+4. **Collaborate Instantly:**
+   - Experience the thrill as changes are shared instantly.
+
+5. **Save Your Creations:**
+   - Save and revisit collaborative masterpieces.
+
+6. **Repeat the Joy:**
+    - Create new boards and keep the joy of collaboration alive.
+
+
 ## Technology Stack
 
 - **NextJS for UI:** Leveraging the power of React, NextJS provides a smooth and efficient user interface for seamless drawing collaboration.
